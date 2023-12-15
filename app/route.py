@@ -1,4 +1,5 @@
 from app import app
+from errors import HttpError
 from flask import request, redirect, abort, url_for
 from flask import render_template
 
@@ -7,15 +8,23 @@ def page_not_found(error):
     return render_template('404.html'), 404
 
 
-@app.route('/')
-def home():
-    return redirect(url_for('login'))
+# @app.route('/')
+# def home():
+#     return redirect(url_for('login'))
 
 
-@app.route('/login')
+@app.route('/login', methods=['GEt', 'POST'])
 def login():
     # abort(401)
-    page_not_found()
+    # page_not_found(404)
+    # error = None
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password)']
+        return 'Fine'
+    else:
+        # error = 'Invalid username/password'
+        return render_template('login.html')
 
 
 @app.route('/user')
