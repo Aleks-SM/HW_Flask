@@ -1,6 +1,5 @@
 import flask
-import requests
-from flask import views, jsonify, request, session
+from flask import views, jsonify, request
 from models import Session, Adverts
 from sqlalchemy.exc import IntegrityError
 from errors import HttpError
