@@ -26,14 +26,14 @@ class Base(DeclarativeBase):
     pass
 
 
-class Advertisement(Base):
-    __tablename__ = "app_users"
+class Adverts(Base):
+    __tablename__ = "adverts"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    title: Mapped[str] = mapped_column(String(100), unique=True, index=True, nullable=False)
-    description: Mapped[str] = mapped_column(String(1000), nullable=False)
+    title: Mapped[str] = mapped_column(String(40), unique=True, index=True, nullable=False)
+    description: Mapped[str] = mapped_column(String(500), nullable=False)
     time_of_creation: Mapped[datetime.datetime] = mapped_column(DateTime, server_default=func.now())
-    owner: Mapped[str] = mapped_column(String(100), index=True, nullable=False)
+    owner: Mapped[str] = mapped_column(String(20), index=True, nullable=False)
 
     @property
     def dict(self):
