@@ -1,7 +1,7 @@
 import sqlalchemy as sq
 from sqlalchemy import func
 from sqlalchemy.orm import DeclarativeBase
-
+from tools import engine
 
 
 class Base(DeclarativeBase):
@@ -22,3 +22,5 @@ class Adverts(Base):
                 'title': self.title,
                 'description': self.description,
                 'time_create': self.time_create}
+
+Base.metadata.create_all(bind=engine)
