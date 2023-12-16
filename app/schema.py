@@ -9,14 +9,14 @@ class AbstractAdv(pydantic.BaseModel):
     @pydantic.field_validator("title")
     @classmethod
     def title_len(cls, v: str) -> str:
-        if len(v) > 100:
+        if len(v) > 50:
             raise ValueError("Maximal length of title is 100")
         return v
 
     @pydantic.field_validator("description")
     @classmethod
     def desc_len(cls, v: str) -> str:
-        if len(v) > 1000:
+        if len(v) > 500:
             raise ValueError("Maximal length of description is 1000")
         return v
 
