@@ -8,7 +8,7 @@ python -m venv .env
 ```bash
 source .env/bin/activate
 ```
-3Установка зависимостей
+3. Установка зависимостей
 ```bash
 pip install -r requirements.txt
 ```
