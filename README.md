@@ -1,14 +1,18 @@
 ### HW_Flask
 
 1. Создание виртуального окружения
-```python
-python -m 
+```bash
+python -m venv .env
 ```
-2. Установка зависимостей
-```python
+2. Активация виртуального окружения
+```bash
+source .env/bin/activate
+```
+3Установка зависимостей
+```bash
 pip install -r requirements.txt
 ```
-2. запуск контейнера с БД
+4. запуск контейнера с БД
 ```bash
    docker compose up
 ```
