@@ -1,21 +1,21 @@
 import os
 import atexit
-from sqlalchemy import create_engine
+import datetime
+from sqlalchemy import create_engine, String, DateTime, func
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy import String, DateTime, func
-import datetime
+from config import POSTGRES_DB, POSTGRES_PASSWORD, POSTGRES_PORT, POSTGRES_HOST, POSTGRES_USER, TYPE_DB
 
 
-POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD", 'secret')
-POSTGRES_USER = os.getenv("POSTGRES_USER", 'user')
-POSTGRES_DB = os.getenv("POSTGRES_DB", 'adv_db')
-POSTGRES_HOST = os.getenv("POSTGRES_HOST", '127.0.0.1')
-POSTGRES_PORT = os.getenv("POSTGRES_PORT", '5431')
+# POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD", 'secret')
+# POSTGRES_USER = os.getenv("POSTGRES_USER", 'user')
+# POSTGRES_DB = os.getenv("POSTGRES_DB", 'adv_db')
+# POSTGRES_HOST = os.getenv("POSTGRES_HOST", '127.0.0.1')
+# POSTGRES_PORT = os.getenv("POSTGRES_PORT", '5431')
 
 
-PG_DSN = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
+PG_DSN = f"{TYPE_DB}://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
 
 engine = create_engine(PG_DSN, pool_pre_ping=True)
 Session = sessionmaker(bind=engine)
