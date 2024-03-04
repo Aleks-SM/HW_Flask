@@ -1,7 +1,7 @@
 import os
 import atexit
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, relationship
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy import String, DateTime, ForeignKey, func
@@ -62,6 +62,8 @@ class Adverts(Base):
             'description': self.description,
             'time_of_creation': self.time_of_creation.isoformat(),
         }
+
+    user = relationship("User", backref="user", lazy="dynamic")
 
 
 Base.metadata.create_all(bind=engine)
