@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy import String, DateTime, func
+from sqlalchemy import String, DateTime, ForeignKey, func
 import datetime
 
 
@@ -27,6 +27,24 @@ class Base(DeclarativeBase):
     pass
 
 
+class Users(Base):
+    __tablename__ = "users"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    username: Mapped[str] = mapped_column(String(20), unique=True, index=True, nullable=False)
+    password: Mapped[str] = mapped_column(String(100), nullable=False)
+    email: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
+
+    @property
+    def dict(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'description': self.description,
+            'time_of_creation': self.time_of_creation.isoformat(),
+        }
+
+
 class Adverts(Base):
     __tablename__ = "adverts"
 
@@ -34,7 +52,7 @@ class Adverts(Base):
     title: Mapped[str] = mapped_column(String(40), unique=True, index=True, nullable=False)
     description: Mapped[str] = mapped_column(String(500), nullable=False)
     time_of_creation: Mapped[datetime.datetime] = mapped_column(DateTime, server_default=func.now())
-    # owner: Mapped[str] = mapped_column(String(20), index=True, nullable=False)
+    owner_id: Mapped[int] = mapped_column(ForeignKey("user.id", ondelete="CASCADE"), index=True, nullable=False)
 
     @property
     def dict(self):
