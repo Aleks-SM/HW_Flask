@@ -1,7 +1,7 @@
 import requests
 
 response = requests.post('http://127.0.0.1:5000/adverts',
-                         json={"title": "user1", "description": "qweqweqw"}
+                         json={"title": "user2", "description": "qweqweqw"}
                          )
                          # params={"name": "Jane", "age": "34"},
                          # headers={"token": "some_token"})
