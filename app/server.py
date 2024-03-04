@@ -1,6 +1,6 @@
 import flask
 from flask import views, jsonify, request
-from models import Session, Adverts
+from models import Session, Adverts, Users
 from sqlalchemy.exc import IntegrityError
 from errors import HttpError
 from schema import CreateAdv, UpdateAdv
@@ -44,6 +44,20 @@ def add_adv(adv: Adverts):
         raise HttpError(409, "adv already exists")
 
 
+def get_user_by_id(user_id: int):
+    user = request.session.get(Users, user_id)
+    if user is None:
+        raise HttpError(404, 'User not found')
+    return user
+
+
+def add_user(user: Users):
+    try:
+        request.session.add(user)
+        request.session.commit()
+    except IntegrityError as err:
+        raise HttpError(409, "user already exists")
+
 class AdvView(views.MethodView):
 
     @property
@@ -75,11 +89,30 @@ class AdvView(views.MethodView):
         return jsonify({'status': 'OK'})
 
 
+class UserView(views.MethodView):
+
+    @property
+    def session(self) -> Session:
+        return request.session
+
+    def get(self, user_id: int):
+        user = get_user_by_id(user_id)
+        return jsonify(user.dict)
+
+    def post(self):
+        user_data = validate(CreateAdv, request.json)
+        user = Users(**user_data)
+        add_user(user)
+        return jsonify({"id": user.id})
+
+
 adv_view = AdvView.as_view("adv_view")
+user_view = UserView.as_view("user_view")
 
 app.add_url_rule("/adverts/<int:adv_id>", view_func=adv_view, methods=["GET", "PATCH", "DELETE"])
 app.add_url_rule("/adverts", view_func=adv_view, methods=["POST"])
-
+app.add_url_rule("/adverts/<int:user_id>", view_func=user_view, methods=["GET", "PATCH", "DELETE"])
+app.add_url_rule("/users", view_func=user_view, methods=["POST"])
 
 if __name__ == "__main__":
     app.run()
