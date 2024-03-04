@@ -26,6 +26,7 @@ class Adverts(Base):
     title: Mapped[str] = mapped_column(String(40), unique=True, index=True, nullable=False)
     description: Mapped[str] = mapped_column(String(500), nullable=False)
     time_of_creation: Mapped[datetime.datetime] = mapped_column(DateTime, server_default=func.now())
+    owner: Mapped[str] = mapped_column(String(30))
 
     @property
     def dict(self):
@@ -34,6 +35,7 @@ class Adverts(Base):
             'title': self.title,
             'description': self.description,
             'time_of_creation': self.time_of_creation.isoformat(),
+            'owner': self.owner,
         }
 
 
