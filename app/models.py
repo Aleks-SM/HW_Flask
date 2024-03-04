@@ -27,24 +27,6 @@ class Base(DeclarativeBase):
     pass
 
 
-class Users(Base):
-    __tablename__ = "users"
-
-    id: Mapped[int] = mapped_column(primary_key=True)
-    username: Mapped[str] = mapped_column(String(20), unique=True, index=True, nullable=False)
-    password: Mapped[str] = mapped_column(String(100), nullable=False)
-    email: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
-
-    @property
-    def dict(self):
-        return {
-            'id': self.id,
-            'usename': self.username,
-            'password': self.password,
-            'email': self.email,
-        }
-
-
 class Adverts(Base):
     __tablename__ = "adverts"
 
@@ -52,7 +34,6 @@ class Adverts(Base):
     title: Mapped[str] = mapped_column(String(40), unique=True, index=True, nullable=False)
     description: Mapped[str] = mapped_column(String(500), nullable=False)
     time_of_creation: Mapped[datetime.datetime] = mapped_column(DateTime, server_default=func.now())
-    owner_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), index=True, nullable=False)
 
     @property
     def dict(self):
@@ -62,8 +43,6 @@ class Adverts(Base):
             'description': self.description,
             'time_of_creation': self.time_of_creation.isoformat(),
         }
-
-    user = relationship("User", backref="user")
 
 
 Base.metadata.create_all(bind=engine)
