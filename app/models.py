@@ -1,10 +1,10 @@
 import os
 import atexit
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, relationship
+from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy import String, DateTime, ForeignKey, func
+from sqlalchemy import String, DateTime, func
 import datetime
 
 
